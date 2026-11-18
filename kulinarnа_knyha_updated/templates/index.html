@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кулінарна книга</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+    <header class="header">
+        <h1>🍲 Кулінарна книга</h1>
+        <p>Прості та смачні рецепти</p>
+    </header>
+
+    <main class="container">
+        <section class="tools">
+            <h2>Знайти рецепт</h2>
+            <input id="search" type="text" placeholder="Введіть назву страви...">
+            <select id="category">
+                <option value="all">Усі категорії</option>
+                <option value="Перші страви">Перші страви</option>
+                <option value="Десерти">Десерти</option>
+            </select>
+            <p id="empty-message" hidden>Рецептів за вашим запитом не знайдено.</p>
+        </section>
+
+        <section class="recipes">
+            {% for recipe in recipes %}
+            <article class="recipe-card"
+                     data-name="{{ recipe.name|lower }}"
+                     data-category="{{ recipe.category }}">
+                <img src="{{ url_for('static', filename='images/' + recipe.image) }}"
+                     alt="{{ recipe.name }}">
+                <div class="recipe-content">
+                    <span class="category">{{ recipe.category }}</span>
+                    <h2>{{ recipe.name }}</h2>
+                    <button class="details-button" type="button"
+                            aria-expanded="false">Показати рецепт</button>
+                    <div class="details" hidden>
+                        <h3>Інгредієнти</h3>
+                        <p>{{ recipe.ingredients }}</p>
+                        <h3>Приготування</h3>
+                        <p class="preparation">{{ recipe.preparation }}</p>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer>Кулінарна книга · Навчальний вебпроєкт</footer>
+</body>
+</html>
